@@ -13,18 +13,18 @@ namespace Cw11.Controllers
     [ApiController]
     public class DoctorController : ControllerBase
     {
-        private readonly HospitalContext _context;
+        private readonly HospitalContext hospitalContext;
 
         public DoctorController(HospitalContext context)
         {
-            this._context = context;
+            this.hospitalContext = context;
         }
 
 
         [HttpGet("{id}")]
-        public IActionResult Doctor(int id)
+        public IActionResult GetDoctor(int id)
         {
-            Doctor doctor = _context.Doctors.Find(id);
+            Doctor doctor = hospitalContext.Doctors.Find(id);
 
             if (doctor == null)
             {
@@ -36,7 +36,7 @@ namespace Cw11.Controllers
 
 
         [HttpPost]
-        public IActionResult Doctor(DoctorDTO doctorDTO)
+        public IActionResult AddDoctor(DoctorDTO doctorDTO)
         {
             Doctor doctor = new Doctor();
 
@@ -44,8 +44,8 @@ namespace Cw11.Controllers
             doctor.LastName = doctorDTO.LastName;
             doctor.Email = doctorDTO.Email;
 
-            _context.Doctors.Add(doctor);
-            _context.SaveChanges();
+            hospitalContext.Doctors.Add(doctor);
+            hospitalContext.SaveChanges();
 
             return Ok(doctor);
         }
@@ -54,7 +54,7 @@ namespace Cw11.Controllers
         public IActionResult UpdateDoctor(DoctorDTO doctorDTO)
         {
 
-            Doctor doctor = _context.Doctors.Find(Int32.Parse(doctorDTO.IdDoctor));
+            Doctor doctor = hospitalContext.Doctors.Find(Int32.Parse(doctorDTO.IdDoctor));
 
             if (doctor == null)
             {
@@ -65,8 +65,8 @@ namespace Cw11.Controllers
             doctor.LastName = doctorDTO.LastName;
             doctor.Email = doctorDTO.Email;
 
-            _context.Update(doctor);
-            _context.SaveChanges();
+            hospitalContext.Update(doctor);
+            hospitalContext.SaveChanges();
 
             return Ok(doctor);
         }
@@ -74,15 +74,15 @@ namespace Cw11.Controllers
         [HttpDelete("{id}")]
         public IActionResult DeleteDoctor(int id)
         {
-            Doctor doctor = _context.Doctors.Find(id);
+            Doctor doctor = hospitalContext.Doctors.Find(id);
 
             if (doctor == null)
             {
                 return NotFound("Nie znaleziono doctora o id = "+id);
             }
 
-            _context.Doctors.Remove(doctor);
-            _context.SaveChanges();
+            hospitalContext.Doctors.Remove(doctor);
+            hospitalContext.SaveChanges();
             
 
             return Ok();
